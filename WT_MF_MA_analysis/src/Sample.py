@@ -4,8 +4,7 @@
 # Sample
 
 import sys
-
-
+import matplotlib.pyplot as plt
 
 class Sample:
 
@@ -39,3 +38,11 @@ class Sample:
 
     def getNormal(self):
         return self.normalizedToIS.itervalues()
+
+    def testPlot(self):
+        lists = sorted(self.normalizedToIS.items())
+        x, y = zip(*lists)
+        plt.plot(x, y)
+        plt.ylabel('Y')
+        plt.xlabel('X')
+        plt.savefig('../test.pdf', bbox_inches='tight' )

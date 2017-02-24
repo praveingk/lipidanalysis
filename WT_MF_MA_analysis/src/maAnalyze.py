@@ -88,6 +88,8 @@ def exportNormalized():
         for n in normalVals:
             line = line + str(n)+","
         normalized.write(line+"\n")
+        s.testPlot()
+        break
     normalized.close()
     pass
 
