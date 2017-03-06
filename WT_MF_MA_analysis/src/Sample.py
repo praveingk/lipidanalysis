@@ -2,6 +2,10 @@
 
 
 # Sample
+# Maintains Data for each Sample in a Batch (Run)
+
+__author__      = "Pravein Govindan Kannan"
+__copyright__   = "Copyright 2017, NUS"
 
 import sys
 import matplotlib.pyplot as plt

@@ -4,6 +4,8 @@
 # maAnalyze.py
 # Analysis of Mouse Atlas
 
+__author__      = "Pravein Govindan Kannan"
+__copyright__   = "Copyright 2017, NUS"
 
 import re, sys
 import os

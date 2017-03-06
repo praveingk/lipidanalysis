@@ -3,6 +3,9 @@
 
 # Lipid
 
+__author__      = "Pravein Govindan Kannan"
+__copyright__   = "Copyright 2017, NUS"
+
 import sys
 
 

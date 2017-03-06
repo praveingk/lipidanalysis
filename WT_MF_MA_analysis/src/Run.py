@@ -2,7 +2,11 @@
 
 
 # Run
-# Class for storing data of different runs. Each run will have similar structured data
+# Pravein, 2017
+# Class for storing data of different runs. Each run will have similar structured data. AKA Batch
+
+__author__      = "Pravein Govindan Kannan"
+__copyright__   = "Copyright 2017, NUS"
 
 import sys,os
 import numpy as np
