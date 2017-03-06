@@ -4,8 +4,7 @@
 # Sample
 
 import sys
-
-
+import matplotlib.pyplot as plt
 
 class Sample:
 
@@ -36,7 +35,7 @@ class Sample:
             return
         normalized = float((l1Val/l2Val) * concetration)
         self.normalizedToIS[lipid1] = normalized
-        print "Normalized " + str(normalized)
+        #print "Normalized " + str(normalized)
         pass
 
     def getName(self):
@@ -52,15 +51,22 @@ class Sample:
             line += lipidIndexMap[i]+","
         return line
 
-    def calcRelAbundance(self, lipidIndicator):
+    def calcLipidAbundance(self, lipidIndicator):
         for lipid  in lipidIndicator:
             if lipidIndicator[lipid] == 1 :
-                self.lipidSum += self.lipids[lipid]
+                self.lipidSum += self.normalizedToIS[lipid]
         for lipid in lipidIndicator:
             if lipidIndicator[lipid] == 1:
-                self.lipidAbundance[lipid] = (self.lipids[lipid] / self.lipidSum) * 100
+                self.lipidAbundance[lipid] = (self.normalizedToIS[lipid] / self.lipidSum) * 100
 
     def getLipidAbundance(self):
         return self.lipidAbundance
 
 
+    def testPlot(self):
+        lists = sorted(self.normalizedToIS.items())
+        x, y = zip(*lists)
+        plt.plot(x, y)
+        plt.ylabel('Y')
+        plt.xlabel('X')
+        plt.savefig('../test.pdf', bbox_inches='tight' )

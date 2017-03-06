@@ -13,10 +13,8 @@ import time
 import pickle, pprint
 
 # Helper Methods
-from src.Run import Run
-from src.Sample import Sample
-
-
+from Run import Run
+import Sample
 
 
 
@@ -28,7 +26,6 @@ if 4 > len(sys.argv):
           " RunFile.csv, normalFile.csv\n" \
           "...\n" \
           "...\n"
-    print 'Usage : maAnalyze <Run Files> <Normal File> <Command Start/Stop/etc>'
     sys.exit(1)
 
 # Initialize some basic parameter files
@@ -38,14 +35,43 @@ command = str(sys.argv[3])
 print command
 if command.lower() == 'start':
     inF = open(inputFile, "r")
+    batch = 1
     for line in inF.readlines():
         lineSplit = line.split(",")
-        runFile = lineSplit[0]
-        normalFile = lineSplit[1]
+        runFile = lineSplit[0].rstrip()
+        normalFile = lineSplit[1].rstrip()
         # Do this repeatedly
         run = Run(runFile)
         run.loadRun(runFile)
+        print "##################################################"
+        print "Processing "+line.rstrip()
         run.processNormal(normalFile)
-        run.exportNormalized(outputDir+"/putput.csv")
-        run.calcRelAbundance()
-        run.exportLipidAbundance(outputDir+"/abundance.csv")
+        run.exportNormalized(outputDir+"/Normalized"+ str(batch)+".csv")
+        print "Normalized!"
+        run.calcLipidAbundance()
+        run.exportLipidAbundance(outputDir+"/abundance"+str(batch)+".csv")
+        print "Lipid Relative Abundance Done!"
+        run.performQualityCheck()
+        run.exportLipidAbundanceQC(outputDir+"/abundanceQC"+str(batch)+".csv")
+        print "Quality Check Done!"
+        run.getHeatMapLipidvsSamples()
+        print "HeatMap Done!"
+        print "Visit : https://plot.ly/dashboard/praveingk:6/present"
+    print "##################################################"
+    pass
+elif command.lower() == 'normal':
+    inF = open(inputFile, "r")
+    batch = 1
+    for line in inF.readlines():
+        lineSplit = line.split(",")
+        runFile = lineSplit[0].rstrip()
+        normalFile = lineSplit[1].rstrip()
+        # Do this repeatedly
+        run = Run(runFile)
+        run.loadRun(runFile)
+        #print normalFile
+        print "Processing "+line.rstrip()
+        run.processNormal(normalFile)
+        run.exportNormalized(outputDir+"/Normalized"+ str(batch)+".csv")
+        print "Normalized!"
+    pass
