@@ -29,6 +29,11 @@ class Run:
         self.qualityLipids = {}
         self.qualifiedLipids = []
         self.filterSamples = []
+        self.sampleFilter = ""
+        self.qualityCheck = "QC"
+
+    def setSampleFiler(self, sampleFilter):
+        self.sampleFilter = sampleFilter
 
     def loadLipidIndices(self, lineSplit):
         i = 1
@@ -138,7 +143,7 @@ class Run:
             lipidVals = []
             for s in self.Samples:
                 normal = s.getNormal()
-                if "QC" in s.getName():
+                if self.qualityCheck in s.getName():
                     lipidVals.append(normal[lipid])
             #print lipidVals
             std  = np.std(lipidVals)
@@ -156,7 +161,7 @@ class Run:
             else :
                 self.qualityLipids[lipid] = 0
 
-        #print "Quality Analysis :" + str(self.qualityLipids)
+        print "Quality Analysis :" + str(self.qualityLipids)
 
     def exportLipidAbundance(self, outputFile):
         abundance = open(outputFile,"w")
@@ -200,12 +205,12 @@ class Run:
     def filterSampleNames(self):
         filteredSamples = []
         for s in self.Samples:
-            if "MF" in s.getName():
+            if self.sampleFilter in s.getName():
                 filteredSamples.append(s.getName())
                 self.filterSamples.append(s)
         return filteredSamples
 
-    def getHeatMapLipidvsSamples(self):
+    def getHeatMapLipidvsSamples(self, outputFile):
         sortedLipids = sorted(self.qualifiedLipids)
         #print sortedLipids
         #x = sortedLipids
@@ -254,4 +259,4 @@ class Run:
             ),
         )
         fig = go.Figure(data=data, layout=layout)
-        py.plot(fig, filename='AbundanceQC, auto_open=False')
+        py.plot(fig, filename=outputFile, auto_open=False)

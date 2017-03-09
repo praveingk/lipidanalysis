@@ -42,9 +42,14 @@ if command.lower() == 'start':
         lineSplit = line.split(",")
         runFile = lineSplit[0].rstrip()
         normalFile = lineSplit[1].rstrip()
+        sampleFilter = ""
+        if (len(lineSplit) > 2) :
+            sampleFilter = lineSplit[2].rstrip()
+
         # Do this repeatedly
         run = Run(runFile)
         run.loadRun(runFile)
+        run.setSampleFiler(sampleFilter)
         print "##################################################"
         print "Processing "+line.rstrip()
         run.processNormal(normalFile)
@@ -56,9 +61,9 @@ if command.lower() == 'start':
         run.performQualityCheck()
         run.exportLipidAbundanceQC(outputDir+"/abundanceQC"+str(batch)+".csv")
         print "Quality Check Done!"
-        run.getHeatMapLipidvsSamples()
+        run.getHeatMapLipidvsSamples("HeatMap_Batch"+ str(batch)+"_"+str(time.ctime()))
         print "HeatMap Done!"
-        print "Visit : https://plot.ly/dashboard/praveingk:6/present"
+        print "Visit : https://plot.ly/ to your account to view the results!!"
     print "##################################################"
     pass
 elif command.lower() == 'normal':
@@ -68,6 +73,7 @@ elif command.lower() == 'normal':
         lineSplit = line.split(",")
         runFile = lineSplit[0].rstrip()
         normalFile = lineSplit[1].rstrip()
+
         # Do this repeatedly
         run = Run(runFile)
         run.loadRun(runFile)
