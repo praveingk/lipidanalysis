@@ -1,0 +1,31 @@
+Sample,
+blk1,
+blk2,
+blk3,
+SL std mix1,
+SL std mix2,
+blk6,
+M290-samblk1,
+M291-samblk2,
+blk7,
+M279-291QCLiver1,
+M279-291QCLiver2,
+M279-291QCLiver3,
+blk8,
+M279-Liver 1462,12.7
+M280-Liver 1461,10.6
+M281-Liver 1460,8.3
+blk9,
+M282-Liver 1463,9.5
+M283-Liver 1464,13.4
+M284-Liver 1972,7.1
+blk10,
+M285-Liver 1973,8
+M286-Liver 1974,8.2
+M287-Liver 1975,9
+blk11,
+M288-Liver1981,8.2
+M289-Liver 1982,12.7
+blk12,
+M279-291QCLiver4,
+M279-291QCLiver5,

@@ -14,7 +14,7 @@ from Sample import Sample
 from scipy import stats
 
 
-import plotly.plotly as py
+import plotly
 import plotly.graph_objs as go
 
 
@@ -58,6 +58,11 @@ class Run:
             i = i + 1
         #print S.toStr()
 
+    def getSample(self, sampleName):
+        for s in self.Samples:
+            if s.getName() == sampleName:
+                return s
+        pass
     def loadRun(self, runFile):
         if not os.path.exists(runFile):
             print "Run File not Found!!!"
@@ -72,6 +77,19 @@ class Run:
             else:
                 self.loadSamples(lineSplit)
         runF.close()
+        pass
+
+    def processWeights(self, weightFile):
+        if not os.path.exists(weightFile):
+            print "Normal File not Found!!!"
+            return 1
+        weight = open(weightFile, "r")
+        for line in weight.readlines():
+            lineSplit = line.split(",")
+            sampleName = lineSplit[0]
+            s = self.getSample(sampleName)
+            s.setWeight(int(lineSplit[1]))
+            s.calcLipidWeight()
         pass
 
     def processNormal(self, normalFile):
@@ -179,6 +197,24 @@ class Run:
             abundance.write(line +"\n")
         abundance.close()
 
+    def exportLipidWeightNormalization(self, outputFile):
+        weight = open(outputFile,"w")
+        line = "Sample, "
+        for i in range(0, len(self.lipidIndexMap)):
+            if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
+                line = line + self.lipidIndexMap[i]+","
+        weight.write(line + "\n")
+        for s in self.Samples:
+            line = s.getName() + ","
+            labun = s.getNormalizedtoWeght()
+            for i in range(0, len(self.lipidIndexMap)):
+                if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
+                    line = line + str(labun[self.lipidIndexMap[i]]) +","
+            weight.write(line +"\n")
+        weight.close()
+
+
+
     def exportLipidAbundanceQC(self, outputFile):
         abundance = open(outputFile,"w")
         line = "Sample, "
@@ -259,4 +295,55 @@ class Run:
             ),
         )
         fig = go.Figure(data=data, layout=layout)
-        py.plot(fig, filename=outputFile, auto_open=False)
+        plotly.plot(fig, filename=outputFile, auto_open=False)
+
+    def createHeatMapRaw(self, outputFile):
+        sortedLipids = sorted(self.lipidIndexRevMap.iterkeys())
+        print sortedLipids
+        #x = sortedLipids
+        samples =  self.filterSampleNames()
+
+        print samples
+
+        lipidVals = []
+        for s in self.filterSamples:
+            lipidinternal = []
+            for lipid in sortedLipids:
+                labun = s.getRawLipids()
+                lipidinternal.append(labun[lipid])
+            zscoreLipids = stats.zscore(lipidinternal)
+
+            #print lipidinternal
+            #print zscoreLipids
+
+            lipidVals.append(zscoreLipids)
+
+        #print lipidVals
+        #
+        # print len(lipidVals)
+        # print len(self.filterSamples)
+        # for lp in lipidVals:
+        #     print len(lp)
+        # print len(sortedLipids)
+        data = [
+            go.Heatmap(
+                z=lipidVals,
+                y=samples,
+                x=sortedLipids
+            )
+        ]
+
+        layout = go.Layout(
+            autosize=False,
+            width=1500,
+            height=1500,
+            margin=go.Margin(
+                l=180,
+                r=180,
+                b=180,
+                t=100,
+                pad=4
+            ),
+        )
+        fig = go.Figure(data=data, layout=layout)
+        plotly.offline.plot(fig, filename="../output/"+outputFile, auto_open=False)

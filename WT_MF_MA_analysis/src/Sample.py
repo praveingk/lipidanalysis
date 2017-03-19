@@ -18,7 +18,8 @@ class Sample:
         self.normalizedToIS = {}
         self.lipidAbundance = {}
         self.lipidSum = 0
-
+        self.weight = 1
+        self.weightNormalizedLipids = {}
     def addLipid(self, lipidName, lipidVal):
         self.lipids[lipidName] = lipidVal
 
@@ -31,6 +32,9 @@ class Sample:
     def getName(self):
         return self.name
 
+    def setWeight(self, weight):
+        self.weight = weight
+
     def calcNormal(self, lipid1, lipid2, concetration):
         l1Val = self.lipids[lipid1]
         l2Val = self.lipids[lipid2]
@@ -42,11 +46,15 @@ class Sample:
         #print "Normalized " + str(normalized)
         pass
 
+
     def getName(self):
         return self.name
 
     def getNormal(self):
         return self.normalizedToIS
+
+    def getRawLipids(self):
+        return self.lipids
 
     def getNormalHeading(self, lipidIndexMap):
         line = ""
@@ -65,6 +73,14 @@ class Sample:
 
     def getLipidAbundance(self):
         return self.lipidAbundance
+
+    def getNormalizedtoWeght(self):
+        return self.weightNormalizedLipids
+
+    def calcLipidWeight(self):
+        for lipid in self.normalizedToIS:
+            val = (self.normalizedToIS[lipid]*1000) / self.weight
+            self.weightNormalizedLipids[lipid] = val
 
 
     def testPlot(self):

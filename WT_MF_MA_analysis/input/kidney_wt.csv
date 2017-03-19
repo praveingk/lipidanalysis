@@ -1,0 +1,33 @@
+Sample,drywt
+blk1,
+blk2,
+blk3,
+blk4,
+blk5,
+SL std mix1,
+SL std mix2,
+blk6,
+M71-samblk1,
+M72-samblk2,
+blk7,
+M60-72 QC Kidney1,
+M60-72 QC Kidney2,
+M60-72 QC Kidney3,
+blk8,
+M60-Kidney 1460,5.9
+M61-Kidney 1461,7.4
+M62-Kidney 1462,4.9
+blk9,
+M63-Kidney 1463,4.8
+M64- Kidney 1464,6.4
+M65- Kidney 1972,4.5
+blk10,
+M66- Kidney 1973,5.5
+M67- Kidney 1974,4.7
+M68- Kidney 1975,4.9
+blk11,
+M69- Kidney1981,4.1
+M70- Kidney1982,6.9
+blk12,
+M60-72 QC Kidney4,
+M60-72 QC Kidney5,

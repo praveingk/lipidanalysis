@@ -1,0 +1,31 @@
+Sample,
+blk1,
+blk2,
+blk3,
+SL std mix1,
+SL std mix2,
+blk6,
+M84-samblk1,
+M85-samblk2,
+blk7,
+M73-85 QC Lung1,
+M73-85 QC Lung2,
+M73-85 QC Lung3,
+blk8,
+M73-Lung 1460,4.4
+M74-Lung 1461,3.2
+M75-Lung 1462,2
+blk9,
+M76-Lung 1463,3.6
+M77- Lung 1464,4.2
+M78- Lung 1972,5.1
+blk10,
+M79- Lung 1973,3.2
+M80- Lung 1974,4.8
+M81- Lung 1975,5.5
+blk11,
+M82- Lung1981,3.5
+M83-Lung 1982,3.4
+blk12,
+M73-85 QC Lung4,
+M73-85 QC Lung5,

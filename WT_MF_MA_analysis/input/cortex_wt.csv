@@ -1,0 +1,30 @@
+Sample,
+blk1,
+blk2,
+blk3,
+SL std mix1,
+SL std mix2,
+blk6,
+M97-samblk1,
+M98-samblk2,
+blk7,
+M86-98 QC Cortex1,
+M86-98 QC Cortex2,
+M86-98 QC Cortex3,
+blk8,
+M86-Cortex 1460,4.7
+M87-Cortex 1461,6.2
+M88-Cortex 1462,6.8
+blk9,
+M89-Cortex 1463,4.9
+M90- Cortex 1464,5.5
+M91- Cortex 1972,6.1
+blk10,
+M92- Cortex 1973,4.1
+M93- Cortex 1974,5.2
+blk11,
+M95- Cortex1981,4.2
+M96-Cortex 1982,4.5
+blk12,
+M86-98 QC Cortex4,
+M86-98 QC Cortex5,

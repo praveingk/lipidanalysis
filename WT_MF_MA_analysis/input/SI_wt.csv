@@ -1,0 +1,31 @@
+Sample,
+blk1,
+blk2,
+blk3,
+SL std mix1,
+SL std mix2,
+blk6,
+M110-samblk1,
+M111-samblk2,
+blk7,
+M99-111 QC SI1,
+M99-111 QC SI2,
+M99-111 QC SI3,
+blk8,
+M99-SI 1460,5.7
+M100-SI 1461,3.5
+M101-SI 1462,5.5
+blk9,
+M102-SI 1463,5
+M103- SI 1464,4.9
+M104- SI 1972,4
+blk10,
+M105- SI 1973,5.9
+M106- SI 1974,5.3
+M107- SI 1975,4.4
+blk11,
+M108- SI1981,4.9
+M109-SI 1982,4.2
+blk12,
+M99-111 QC SI4,
+M99-111 QC SI5,

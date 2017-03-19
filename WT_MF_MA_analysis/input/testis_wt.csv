@@ -1,0 +1,20 @@
+Sample,
+blk1,
+blk2,
+blk3,
+SL std mix1,
+SL std mix2,
+blk6,
+M149-samblk testis1,
+M149-samblk testis2,
+blk7,
+M138-142_149 QC testis1,
+M138-142_149 QC testis2,
+blk8,
+M138-testis 1460,4.3
+M139-testis 1461,4.6
+M140-testis 1462,6.2
+blk9,
+M141-testis 1463,6.2
+M142- testis 1464,4.2
+blk10,
