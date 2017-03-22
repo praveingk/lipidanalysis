@@ -34,6 +34,7 @@ if 4 > len(sys.argv):
 inputFile = str(sys.argv[1])
 outputDir = str(sys.argv[2])
 command = str(sys.argv[3])
+
 print command
 if command.lower() == 'start':
     inF = open(inputFile, "r")
@@ -43,6 +44,9 @@ if command.lower() == 'start':
         runFile = lineSplit[0].rstrip()
         normalFile = lineSplit[1].rstrip()
         weightFile = lineSplit[2].rstrip()
+        fileOP = re.split("/", runFile)
+        file = fileOP[len(fileOP) - 1]
+        runF = file.split(".")[0]
         sampleFilter = ""
         if (len(lineSplit) > 3) :
             sampleFilter = lineSplit[3].rstrip()
@@ -54,19 +58,24 @@ if command.lower() == 'start':
         print "##################################################"
         print "Processing "+line.rstrip()
         run.processNormal(normalFile)
-        run.exportNormalized(outputDir+"/Normalized"+ str(batch)+".csv")
+        run.exportNormalized(outputDir+"/Normalized_"+ runF+".csv")
         print "Normalized!"
-        run.calcLipidAbundance()
-        run.exportLipidAbundance(outputDir+"/abundance"+str(batch)+".csv")
-        print "Lipid Relative Abundance Done!"
-        run.performQualityCheck()
-        run.exportLipidAbundanceQC(outputDir+"/abundanceQC"+str(batch)+".csv")
-        print "Quality Check Done!"
-        run.getHeatMapLipidvsSamples("HeatMap_Batch"+ str(batch)+"_"+str(time.ctime()))
         run.processWeights(weightFile)
-        run.exportLipidWeightNormalization(outputDir+"/WeightNormalized"+str(batch)+".csv")
-        print "HeatMap Done!"
-        print "Visit : https://plot.ly/ to your account to view the results!!"
+        run.exportLipidWeightNormalization(outputDir+"/WeightNormalized_"+ runF+".csv")
+        print "Weight Normalization Done!"
+        run.calcLipidAbundance()
+        run.exportLipidAbundance(outputDir+"/Abundance_"+runF+".csv")
+        print "Lipid Relative Abundance Done!"
+
+        run.performQualityCheck()
+        print "Quality Check Done!"
+        run.exportLipidAbundanceQC(outputDir+"/AbundanceQC_"+runF+".csv")
+
+
+        run.exportLipidWeightNormalizationQC(outputDir+"/WeightNormalizedQC_"+runF+".csv")
+        #run.getHeatMapLipidvsSamples("HeatMap_Batch"+ str(batch)+"_"+str(time.ctime()))
+        #print "HeatMap Done!"
+        #print "Visit : https://plot.ly/ to your account to view the results!!"
     print "##################################################"
     pass
 elif command.lower() == 'normal':
@@ -77,12 +86,15 @@ elif command.lower() == 'normal':
         runFile = lineSplit[0].rstrip()
         normalFile = lineSplit[1].rstrip()
 
+        fileOP = re.split("/", runFile)
+        file = fileOP[len(fileOP) - 1]
+        runF = file.split(".")[0]
         # Do this repeatedly
         run = Run(runFile)
         run.loadRun(runFile)
         #print normalFile
         print "Processing "+line.rstrip()
         run.processNormal(normalFile)
-        run.exportNormalized(outputDir+"/Normalized"+ str(batch)+".csv")
+        run.exportNormalized(outputDir+"/Normalized"+ runF+".csv")
         print "Normalized!"
     pass

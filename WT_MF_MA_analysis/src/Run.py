@@ -31,6 +31,7 @@ class Run:
         self.filterSamples = []
         self.sampleFilter = ""
         self.qualityCheck = "QC"
+        self.noWeightNormalSamples = []
 
     def setSampleFiler(self, sampleFilter):
         self.sampleFilter = sampleFilter
@@ -85,10 +86,13 @@ class Run:
             return 1
         weight = open(weightFile, "r")
         for line in weight.readlines():
-            lineSplit = line.split(",")
+            lineSplit = line.rstrip().split(",")
             sampleName = lineSplit[0]
+            if len(lineSplit) < 2 or lineSplit[1] == '':
+                self.noWeightNormalSamples.append(sampleName)
+                continue
             s = self.getSample(sampleName)
-            s.setWeight(int(lineSplit[1]))
+            s.setWeight(float(lineSplit[1]))
             s.calcLipidWeight()
         pass
 
@@ -163,23 +167,26 @@ class Run:
                 normal = s.getNormal()
                 if self.qualityCheck in s.getName():
                     lipidVals.append(normal[lipid])
-            #print lipidVals
-            std  = np.std(lipidVals)
+            #if "SM" in lipid:
+            #    print lipid
+            #    print lipidVals
+            std  = np.std(lipidVals, dtype=np.float64)
             avg = np.mean(lipidVals)
-            #print std
-            #print avg
+            #if "SM" in lipid:
+            #    print std
+            #    print avg
             variance = 100
             if avg != 0:
                 variance = (std/avg) * 100
-
-            #print variance
+            #if "SM" in lipid:
+            #    print variance
             if variance < 20 :
                 self.qualityLipids[lipid] = 1
                 self.qualifiedLipids.append(lipid)
             else :
                 self.qualityLipids[lipid] = 0
 
-        print "Quality Analysis :" + str(self.qualityLipids)
+        #print "Quality Analysis :" + str(self.qualityLipids)
 
     def exportLipidAbundance(self, outputFile):
         abundance = open(outputFile,"w")
@@ -189,30 +196,16 @@ class Run:
                 line = line + self.lipidIndexMap[i]+","
         abundance.write(line + "\n")
         for s in self.Samples:
-            line = s.getName() + ","
+            sampleName = s.getName()
+            if sampleName in self.noWeightNormalSamples:
+                continue
+            line = sampleName + ","
             labun = s.getLipidAbundance()
             for i in range(0, len(self.lipidIndexMap)):
                 if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
                     line = line + str(labun[self.lipidIndexMap[i]]) +","
             abundance.write(line +"\n")
         abundance.close()
-
-    def exportLipidWeightNormalization(self, outputFile):
-        weight = open(outputFile,"w")
-        line = "Sample, "
-        for i in range(0, len(self.lipidIndexMap)):
-            if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
-                line = line + self.lipidIndexMap[i]+","
-        weight.write(line + "\n")
-        for s in self.Samples:
-            line = s.getName() + ","
-            labun = s.getNormalizedtoWeght()
-            for i in range(0, len(self.lipidIndexMap)):
-                if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
-                    line = line + str(labun[self.lipidIndexMap[i]]) +","
-            weight.write(line +"\n")
-        weight.close()
-
 
 
     def exportLipidAbundanceQC(self, outputFile):
@@ -226,7 +219,10 @@ class Run:
                 line = line + lipid+","
         abundance.write(line + "\n")
         for s in self.Samples:
-            line = s.getName() + ","
+            sampleName = s.getName()
+            if sampleName in self.noWeightNormalSamples:
+                continue
+            line = sampleName + ","
             labun = s.getLipidAbundance()
             for i in range(0, len(self.lipidIndexMap)):
                 lipid = self.lipidIndexMap[i]
@@ -236,6 +232,49 @@ class Run:
                     line = line + str(labun[lipid]) +","
             abundance.write(line +"\n")
         abundance.close()
+
+    def exportLipidWeightNormalization(self, outputFile):
+        weight = open(outputFile,"w")
+        line = "Sample, "
+        for i in range(0, len(self.lipidIndexMap)):
+            if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
+                line = line + self.lipidIndexMap[i]+","
+        weight.write(line + "\n")
+        for s in self.Samples:
+            sampleName = s.getName()
+            if sampleName in self.noWeightNormalSamples:
+                continue
+            line = sampleName + ","
+            lnornW = s.getNormalizedtoWeght()
+            for i in range(0, len(self.lipidIndexMap)):
+                if self.lipidIndicator[self.lipidIndexMap[i]] == 1:
+                    line = line + str(lnornW[self.lipidIndexMap[i]]) +","
+            weight.write(line +"\n")
+        weight.close()
+
+
+    def exportLipidWeightNormalizationQC(self, outputFile):
+        weight = open(outputFile,"w")
+        line = "Sample, "
+        for i in range(0, len(self.lipidIndexMap)):
+            lipid = self.lipidIndexMap[i]
+            if self.lipidIndicator[lipid] == 1 and self.qualityLipids[lipid] == 1 :
+                line = line + self.lipidIndexMap[i]+","
+        weight.write(line + "\n")
+        for s in self.Samples:
+            sampleName = s.getName()
+            if sampleName in self.noWeightNormalSamples:
+                continue
+            line = sampleName + ","
+            lnormW = s.getNormalizedtoWeght()
+            for i in range(0, len(self.lipidIndexMap)):
+                lipid = self.lipidIndexMap[i]
+                if self.lipidIndicator[lipid] == 0:
+                    continue
+                if self.qualityLipids[lipid] == 1 :
+                    line = line + str(lnormW[lipid]) +","
+            weight.write(line +"\n")
+        weight.close()
 
     #This may change as per spec
     def filterSampleNames(self):
@@ -295,10 +334,10 @@ class Run:
             ),
         )
         fig = go.Figure(data=data, layout=layout)
-        plotly.plot(fig, filename=outputFile, auto_open=False)
+        plotly.offline.plot(fig, filename="../output/" + outputFile, auto_open=False)
 
     def createHeatMapRaw(self, outputFile):
-        sortedLipids = sorted(self.lipidIndexRevMap.iterkeys())
+        sortedLipids = self.lipidIndexRevMap.iterkeys()
         print sortedLipids
         #x = sortedLipids
         samples =  self.filterSampleNames()
