@@ -16,14 +16,14 @@ c) pipinstall plotly
 
 1) cd lipidanalyis/WT_MF_MA_analysis/src
 
-2) python maAnalyze.py <inputfiles> <output directory> <command>
+2) *python maAnalyze.py <inputfiles> <output directory> <command>*
 
 
 **Choice of command :**
 
-1) normal :
+1) *normal* :
 
    Only normalization done for the input samples.
 
-2) start :
+2) *start* :
    Normalization + Relative Abundance + Weight based Normalization + Quality Checks
