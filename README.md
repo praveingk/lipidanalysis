@@ -1,7 +1,7 @@
 # README #
 
-**
-Requirements :**
+
+**Requirements :**
 
 1) Install Python 2.7 (also python-pip)
 
@@ -10,14 +10,16 @@ Requirements :**
 a) pipinstall numpy
 b) pipinstall scipy
 c) pipinstall plotly
-**
-Running the analyzer :**
+
+
+**Running the analyzer :**
 
 1) cd lipidanalyis/WT_MF_MA_analysis/src
 
 2) python maAnalyze.py <inputfiles> <output directory> <command>
-**
-Choice of command :**
+
+
+**Choice of command :**
 
 1) normal :
 
