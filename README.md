@@ -1,29 +1,27 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+Requirements :
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1) Install Python 2.7 (also python-pip)
 
-### How do I get set up? ###
+2) Install pip libraries : 
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+a) pipinstall numpy
+b) pipinstall scipy
+c) pipinstall plotly
 
-### Contribution guidelines ###
+Running the analyzer :
 
-* Writing tests
-* Code review
-* Other guidelines
+1) cd lipidanalyis/WT_MF_MA_analysis/src
 
-### Who do I talk to? ###
+2) python maAnalyze.py <inputfiles> <output directory> <command>
 
-* Repo owner or admin
-* Other community or team contact
+Choice of command : 
+
+1) normal :
+
+   Only normalization done for the input samples.
+
+2) start :
+   Normalization + Relative Abundance + Weight based Normalization + Quality Checks
