@@ -16,7 +16,7 @@ c) pipinstall plotly
 
 1) cd lipidanalyis/WT_MF_MA_analysis/src
 
-2) *python maAnalyze.py <inputfiles> <output directory> <command>*
+2) *python maAnalyze.py inputfiles output_directory command*
 
 
 ### **Choice of command :** ###
