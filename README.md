@@ -7,9 +7,9 @@
 
 2) Install pip libraries : 
 
-a) pipinstall numpy
-b) pipinstall scipy
-c) pipinstall plotly
+   a) pip install numpy
+   b) pip install scipy
+   c) pip install plotly
 
 
 ## **Running the analyzer :** ##
